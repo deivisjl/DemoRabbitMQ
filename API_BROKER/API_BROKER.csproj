@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <Reference Include="RabbitMQBus">
-      <HintPath>bin\Debug\net6.0\RabbitMQBus.dll</HintPath>
+      <HintPath>Controllers\RabbitMQBus.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
