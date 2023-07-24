@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  api_broker_service:
+    build:
+      context: ./
+      dockerfile: ./API_BROKER/dockerfile
+    image: api_broker:1.0
+    expose:
+      - 8080
+    container_name: api_broker
+    restart: unless-stopped
+    ports:
+    - 8080:80
+    networks:
+      - microservices_network
+    depends_on:
+      - RABBIT_MQ_SERVICE
+
+  api_medii_backend_service:
+    build:
+      context: ./
+      dockerfile: ./MEDII_BACKEND/dockerfile
+    image: api_medii_backend:1.0
+    expose:
+      - 8081
+    container_name: api_medii_backend
+    restart: unless-stopped
+    ports:
+      - 8081:80
+    networks:
+      - microservices_network
+    depends_on:
+      - RABBIT_MQ_SERVICE
+
+  rabbitmq_web:
+    image: rabbitmq:3-management
+    container_name: 'rabbitmq_web'
+    ports:
+      - 5672:5672
+      - 8082:15672
+    networks:
+      - microservices_network
+    depends_on:
+      - RABBIT_MQ_SERVICE
+
+  RABBIT_MQ_SERVICE:
+    image: rabbitmq:3
+    container_name: 'rabbitmq'
+    networks:
+      - microservices_network
+
+networks:
+  microservices_network:
